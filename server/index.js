@@ -60,7 +60,11 @@ app.post("/api/optimize", upload.array("images", 10), async (req, res) => {
 const publicDir = path.join(__dirname, "public");
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
-  app.get("*", (_req, res) => res.sendFile(path.join(publicDir, "index.html")));
+  app.get("/{*splat}", (_req, res) => {
+  res.sendFile(path.join(publicDir, "index.html"));
+});
 }
 
-app.listen(PORT, () => console.log(`Image Optimizer running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Image Optimizer running on port ${PORT}`);
+});
